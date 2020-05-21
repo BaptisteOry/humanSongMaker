@@ -1,0 +1,57 @@
+/*------------------------------
+Normalized settings
+------------------------------*/
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+video,
+audio,
+figure {
+    margin: 0;
+    padding: 0;
+}
+
+header,
+footer,
+section,
+aside,
+nav,
+article,
+figure,
+figcaption {
+    display: block;
+}
+
+.hide {
+    display: none !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*------------------------------
+General
+------------------------------*/
+
+html {
+    height: 100%;
+    font-size: 20px;
+}
+
+body {
+    height: 100%;
+}
+
+canvas {
+  display: block;
+}
