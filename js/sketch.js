@@ -3,7 +3,7 @@ General
 ------------------------------*/
 "use strict"; //Force to declare any variable used
 
-let passersby = [{position: [100, 100], speed: [2, 2], playing: true, trigger: 0, index: 0}]
+let passersby = [{position: [100, 100], speed: [2, 2], playing: true, osc: null, trigger: 0, index: 0}]
 let osc
 let scale = [17, 19, 21, 22, 24, 26, 28]
 
@@ -21,11 +21,14 @@ function initialiser(evt) {
 function setup() {
     var canvas = createCanvas(400, 400);
     canvas.parent("canvasHolder");
-    // A triangle oscillator
-    osc = new p5.TriOsc();
+    passersby.forEach(person => {
+      // A triangle oscillator
+    person.osc = new p5.TriOsc();
     // Start silent
-    osc.start();
-    osc.amp(0);
+    person.osc.start();
+    person.osc.amp(0)
+    });
+    ;
 }
 
 function draw() {
@@ -94,7 +97,12 @@ function movement() {
       default:
         break;
     }
-    passersby.push({position: [x, y], speed: [speedX, speedY], playing: false, trigger: 0, index: 0})
+    passersby.push({position: [x, y], speed: [speedX, speedY], playing: false, osc: null, trigger: 0, index: 0})
+    // A triangle oscillator
+    passersby[passersby.length-1].osc = new p5.TriOsc();
+    // Start silent
+    passersby[passersby.length-1].osc.start();
+    passersby[passersby.length-1].osc.amp(0)
   }
 }
 
@@ -108,19 +116,20 @@ const rhythm1 = [400, 200, 200, 400, 400, 200, 200]
 
 const playRhythm = (rhythm, personId) => {
   if (passersby[personId].playing && millis() > passersby[personId].trigger){
-    playNote(getNote(passersby[personId].position[0],passersby[personId].position[1]), rhythm[passersby[personId].index]);
-    passersby[personId].trigger = millis() + rhythm[passersby[personId].index];
+    playNote(getNote(passersby[personId].position[0],passersby[personId].position[1]), rhythm1[passersby[personId].index], passersby[personId].osc);
+    passersby[personId].trigger = millis() + rhythm1[passersby[personId].index];
     // Move to the next note
     passersby[personId].index ++;
   // We're at the end, stop autoplaying.
   }
   else if (passersby[personId].index >= rhythm.length) {
     passersby[personId].playing = false;
+    passersby[personId].osc.fade(0,0.5);
   }
 }
 
 // A function to play a note
-function playNote(note, duration) {
+function playNote(note, duration, osc) {
   osc.freq(midiToFreq(note));
   // Fade it in
   osc.fade(0.5,0.2);
