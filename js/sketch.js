@@ -57,6 +57,8 @@ function movement() {
       passersby[i].playing = true
     }
     if(passersby[i].position[0] < -100 || passersby[i].position[0] > width+100 || passersby[i].position[1] < -100 || passersby[i].position[1] > height+100) {
+      passersby[i].playing = false;
+      passersby[i].osc.fade(0,0.5);
       passersby[i] = passersby.pop()
 
     }
@@ -123,8 +125,7 @@ const playRhythm = (rhythm, personId) => {
   // We're at the end, stop autoplaying.
   }
   else if (passersby[personId].index >= rhythm.length) {
-    passersby[personId].playing = false;
-    passersby[personId].osc.fade(0,0.5);
+    passersby[personId].index = 0;
   }
 }
 
