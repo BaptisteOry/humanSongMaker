@@ -1,57 +1,203 @@
 /*------------------------------
-Normalized settings
-------------------------------*/
-
-html,
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ul,
-li,
-video,
-audio,
-figure {
-    margin: 0;
-    padding: 0;
-}
-
-header,
-footer,
-section,
-aside,
-nav,
-article,
-figure,
-figcaption {
-    display: block;
-}
-
-.hide {
-    display: none !important;
-}
-
-a {
-    text-decoration: none;
-}
-
-/*------------------------------
 General
 ------------------------------*/
 
 html {
     height: 100%;
+    font-family: 'Roboto', sans-serif;
     font-size: 20px;
 }
 
 body {
+    position: relative;
     height: 100%;
+    min-height: 100vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-canvas {
-  display: block;
+#board {
+    background-color: white;
+    padding: 1rem;
+}
+
+p {
+    margin: 0;
+}
+
+/*------------------------------
+Header
+------------------------------*/
+
+header {
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+header>#logo {
+    width: 200px;
+}
+
+/*------------------------------
+Footer
+------------------------------*/
+
+footer {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    color: white;
+    font-size: 14px;
+}
+
+/*------------------------------
+Main
+------------------------------*/
+
+main {
+    display: flex;
+}
+
+/* Board canvas */
+
+#board_canvas {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+#board_canvas>#infos {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 18px;
+    background-color: #FF6300;
+    color: white;
+    padding: 5px;
+}
+
+#board_canvas>canvas {
+    display: block;
+}
+
+/* Board actions */
+
+#board_actions {
+    width: 300px;
+    box-sizing: border-box;
+    padding: 0 1rem;
+}
+
+/* --> General form */
+
+#board_actions>form>div {
+    margin-bottom: 1rem;
+}
+
+h1 {
+    margin: 0 0 0.3rem 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+h1>span {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.btn {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #FF6300;
+    border-color: #FF6300;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+
+/* --> Tempo */
+
+.field_number::-webkit-inner-spin-button,
+.field_number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.btn_field_number {
+    width: 29px;
+    height: 29px;
+    font-weight: 700;
+}
+
+/* --> Instruments */
+
+.radio_instruments {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.radio_instruments+div {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 100%;
+    box-sizing: border-box;
+    margin: 0 5px 5px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio_instruments+div>img {
+    width: 75%;
+    height: 75%;
+}
+
+.radio_instruments:checked+div,
+.radio_instruments:hover+div {
+    background-color: #FF6300;
+    border-color: #FF6300;
+}
+
+.radio_instruments:checked+div>img,
+.radio_instruments:hover+div>img {
+    filter: invert(1);
+}
+
+.radio_instruments:active+div {
+    transform: translateY(2px);
+}
+
+/* --> Rythm */
+
+.field_select {
+    width: 75%;
+}
+
+.field_select>option:checked {
+    background-color: #FF6300;
+    color: #FFFFFF;
+}
+
+/* --> Submit */
+
+.btn_submit {
+    padding: 5px 8px;
 }

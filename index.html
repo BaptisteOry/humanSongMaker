@@ -2,25 +2,25 @@
 <html lang="fr">
 
 <head>
-    <title>Human Song Maker · Bienvenue</title>
-    
-    <!-- Open Graph Data
-    <meta property="og:title" content="Human Song Maker · Bienvenue" />
-    <meta property="og:description" content="Human Song Maker" />
+    <title>Human Song Maker</title>
+
+    <!-- Open Graph Data -->
+    <meta property="og:title" content="Human Song Maker" />
+    <meta property="og:description" content="Human Song Maker : create original music with the movements of passers-by" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://perso-etudiant.u-pem.fr/" />
-    <meta property="og:image" content="images/" />
-     -->
+    <meta property="og:image" content="images/logo/logo.png" />
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Human Song Maker" />
-    <meta name="keywords" content="">
+    <meta name="description" content="Human Song Maker : create original music with the movements of passers-by" />
+    <meta name="keywords"
+        content="human, song, maker, create, music, partition, instrument, tempo, rythm, interactivity">
 
     <!-- CSS -->
-    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/normalize.css" type="text/css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
 
@@ -30,11 +30,89 @@
 </head>
 
 <body>
-    <main>
-        <div id="canvasHolder"></div>
-    </main>
+    <div id="board">
+        <header>
+            <img id="logo" src="images/logo/logo.svg" alt="Human Song Maker logo">
+        </header>
+        <main>
+            <div id="board_canvas">
+                <p id="infos">Click on a person and choose an instrument!</p>
+            </div>
+            <div id="board_actions">
+                <form action="" method="post">
+                    <div>
+                        <h1>Tempo <span>(in bpm)</span></h1>
+                        <input class="field_number" type="number" step="5" min="60" max="200" value="135" name="tempo"
+                            readonly>
+                        <button class="btn btn_field_number" type="button">-</button>
+                        <button class="btn btn_field_number" type="button">+</button>
+                    </div>
+                    <div>
+                        <h1>Instrument</h1>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="bugle" checked>
+                            <div>
+                                <img src="images/instruments/bugle.svg" alt="Bugle pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="maracas">
+                            <div>
+                                <img src="images/instruments/maracas.svg" alt="Maracas pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="violin">
+                            <div>
+                                <img src="images/instruments/violin.svg" alt="Violin pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="electric_guitar">
+                            <div>
+                                <img src="images/instruments/electric_guitar.svg" alt="Electric guitar pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="saxophone">
+                            <div>
+                                <img src="images/instruments/saxophone.svg" alt="Saxophone pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="guitar">
+                            <div>
+                                <img src="images/instruments/guitar.svg" alt="Guitar pictogram">
+                            </div>
+                        </label>
+                        <label>
+                            <input class="radio_instruments" type="radio" name="instruments" value="bongos">
+                            <div>
+                                <img src="images/instruments/bongos.svg" alt="Bongos pictogram">
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <h1>Rythm</h1>
+                        <select class="field_select">
+                            <option value="001" selected>001</option>
+                            <option value="002">002</option>
+                            <option value="003">003</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn_submit" type="submit">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>© 2020 / Human Song Maker / Solène Mary-Vallée & Baptiste Ory</p>
+    </footer>
 
     <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
     <script src="js/sketch.js"></script>
