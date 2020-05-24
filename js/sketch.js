@@ -10,7 +10,9 @@ let passersby = [{
   playing: true,
   osc: null,
   trigger: 0,
-  index: 0
+  index: 0,
+  instrument: null,
+  rhythm: null
 }]
 let osc
 let scale = [17, 19, 21, 22, 24, 26, 28]
@@ -137,7 +139,9 @@ function movement() {
       playing: false,
       osc: null,
       trigger: 0,
-      index: 0
+      index: 0,
+      instrument: null,
+      rhythm: null
     })
     // A triangle oscillator
     passersby[passersby.length - 1].osc = new p5.TriOsc();
