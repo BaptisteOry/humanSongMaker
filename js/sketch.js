@@ -3,7 +3,7 @@ General
 ------------------------------*/
 "use strict"; //Force to declare any variable used
 
-let passersby = [{position: [100, 100], speed: [2, 2], playing: true, osc: null, trigger: 0, index: 0}]
+let passersby = [{position: [100, 100], speed: [2, 2], selected: false, playing: true, osc: null, trigger: 0, index: 0}]
 let osc
 let scale = [17, 19, 21, 22, 24, 26, 28]
 
@@ -45,13 +45,12 @@ Game
 
 function movement() {
   for(let i=0; i<passersby.length; i++) {
-    // if(passersby[i].speed[0] === 0 && passersby[i].speed[1] === 0) {
-    //   passersby[i].speed[0] = random(0.5, 5);
-    //   passersby[i].speed[1] = random(0, 5);
-    // }
     passersby[i].position[0] += passersby[i].speed[0];
     passersby[i].position[1] += passersby[i].speed[1];
-    fill(0)
+    if(passersby[i].selected) {
+      fill(255, 99, 0)
+    }
+    else fill(0)
     ellipse(passersby[i].position[0], passersby[i].position[1], 100, 100)
     if(passersby[i].position[0] > 0 && passersby[i].position[0] < width && passersby[i].position[1] > 0 && passersby[i].position[1] < height) {
       passersby[i].playing = true
@@ -99,7 +98,7 @@ function movement() {
       default:
         break;
     }
-    passersby.push({position: [x, y], speed: [speedX, speedY], playing: false, osc: null, trigger: 0, index: 0})
+    passersby.push({position: [x, y], speed: [speedX, speedY], selected: false, playing: false, osc: null, trigger: 0, index: 0})
     // A triangle oscillator
     passersby[passersby.length-1].osc = new p5.TriOsc();
     // Start silent
@@ -141,4 +140,27 @@ function playNote(note, duration, osc) {
       osc.fade(0,0.2);
     }, duration-50);
   }
+}
+
+function mousePressed() {
+  const selection = inCircle(mouseX, mouseY)
+  if(selection !== -1) {
+    if(passersby[selection].selected) {
+      passersby[selection].selected = false
+    }
+    else {
+      passersby.forEach(person => person.selected = false);
+      passersby[selection].selected = true;
+    }
+  }
+  return false;
+}
+
+let inCircle = (x, y) => {
+  for(let i=0; i<passersby.length; i++) {
+    if(sqrt((x-passersby[i].position[0])*(x-passersby[i].position[0])+(y-passersby[i].position[1])*(y-passersby[i].position[1])<100*100)) {
+      return i;
+    }
+  }
+  return -1;
 }
