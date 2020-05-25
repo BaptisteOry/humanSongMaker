@@ -123,26 +123,26 @@ function movement() {
       case "north":
         x = random(-radius, width + radius);
         y = -radius;
-        speedX = random(-5, 5);
-        speedY = random(0.1, 5);
+        speedX = random(-.02, 2.0);
+        speedY = random(0.1, 2.0);
         break;
       case "south":
         x = random(-radius, width + radius);
         y = height + radius;
-        speedX = random(-5, 5);
-        speedY = -random(0.1, 5);
+        speedX = random(-2.0, 2.0);
+        speedY = -random(0.1, 2.0);
         break;
       case "est":
         x = width + radius;
         y = random(-radius, height + radius);
-        speedX = -random(0.1, 5);
-        speedY = random(-5, 5);
+        speedX = -random(0.1, 2.0);
+        speedY = random(-2.0, 2.0);
         break;
       case "west":
         x = -radius;
         y = random(-radius, height + radius);
-        speedX = random(0.1, 5);
-        speedY = random(-5, 5);
+        speedX = random(0.1, 2.0);
+        speedY = random(-2.0, 2.0);
         break;
 
       default:
@@ -197,8 +197,8 @@ const playRhythm = (rhythm, personId) => {
     const note = getNote(passersby[personId].position[0], passersby[personId].position[1]);
     const i = displaySquares(note)[0]
     const j = displaySquares(note)[1]
-    console.log(i+", "+j)
-    console.log(passersby[personId].position[0] +", " +passersby[personId].position[1])
+    // console.log(i+", "+j)
+    // console.log(passersby[personId].position[0] +", " +passersby[personId].position[1])
     lightSquare(i, j, coloredSquares[j][i].color[0], coloredSquares[j][i].color[1], coloredSquares[j][i].color[2])
   }
 
