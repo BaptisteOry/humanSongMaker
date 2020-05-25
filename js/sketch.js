@@ -284,8 +284,12 @@ const inCircle = (x, y) => {
   for (let i = 0; i < passersby.length; i++) {
     if (sqrt((x - passersby[i].position[0]) * (x - passersby[i].position[0]) + (y - passersby[i].position[1]) * (y - passersby[i].position[1]) < radius * radius)) {
       selection = passersby[i];
+      return true
     }
   }
+  selection.selected = false;
+  selection = -1;
+  return false
 }
 
 function changeColors() {
