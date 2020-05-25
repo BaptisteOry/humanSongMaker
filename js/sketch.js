@@ -5,7 +5,7 @@ General
 
 let passersby = [{
   position: [100, 100],
-  speed: [2, 2],
+  speed: [1, 1],
   selected: false,
   playing: true,
   osc: null,
@@ -98,6 +98,7 @@ function movement() {
     passersby[i].position[0] += passersby[i].speed[0];
     passersby[i].position[1] += passersby[i].speed[1];
     if (passersby[i].selected) {
+      strokeWeight(1)
       fill(255, 99, 0)
     } else fill(0)
     ellipse(passersby[i].position[0], passersby[i].position[1], radius, radius)
@@ -123,26 +124,26 @@ function movement() {
       case "north":
         x = random(-radius, width + radius);
         y = -radius;
-        speedX = random(-.02, 2.0);
-        speedY = random(0.1, 2.0);
+        speedX = random(-1.0, 1.0);
+        speedY = random(0.1, 1.0);
         break;
       case "south":
         x = random(-radius, width + radius);
         y = height + radius;
-        speedX = random(-2.0, 2.0);
-        speedY = -random(0.1, 2.0);
+        speedX = random(-1.0, 1.0);
+        speedY = -random(0.1, 1.0);
         break;
       case "est":
         x = width + radius;
         y = random(-radius, height + radius);
-        speedX = -random(0.1, 2.0);
-        speedY = random(-2.0, 2.0);
+        speedX = -random(0.1, 1.0);
+        speedY = random(-1.0, 1.0);
         break;
       case "west":
         x = -radius;
         y = random(-radius, height + radius);
-        speedX = random(0.1, 2.0);
-        speedY = random(-2.0, 2.0);
+        speedX = random(0.1, 1.0);
+        speedY = random(-1.0, 1.0);
         break;
 
       default:
@@ -182,7 +183,7 @@ const getSqare = (x, y) => {
 }
 
 const lightSquare = (i, j, r, g, b) => {
-  noStroke(); 
+  strokeWeight(0); 
   fill(r, g, b);
   const x =i*(width/7)
   const y =j*(height/7)
