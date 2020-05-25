@@ -39,70 +39,72 @@
                 <p id="infos">Click on a person and choose an instrument!</p>
             </div>
             <div id="board_actions">
-                <form action="" method="post">
-                    <div>
+                <form id="actions_form" action="" method="post">
+                    <div id="tempo">
                         <h1>Tempo <span>(in bpm)</span></h1>
                         <input class="field_number" type="number" step="5" min="60" max="200" value="135" name="tempo"
                             readonly>
-                        <button class="btn btn_field_number" type="button">-</button>
-                        <button class="btn btn_field_number" type="button">+</button>
+                        <button class="btn btn_field_number change_color" type="button">-</button>
+                        <button class="btn btn_field_number change_color" type="button">+</button>
                     </div>
-                    <div>
+                    <div id="instrument">
                         <h1>Instrument</h1>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="bugle" checked>
+                            <input id="bugle" class="radio_instruments" type="radio" name="instruments" value="bugle" checked>
                             <div>
                                 <img src="images/instruments/bugle.svg" alt="Bugle pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="maracas">
+                            <input id="maracas" class="radio_instruments" type="radio" name="instruments" value="maracas">
                             <div>
                                 <img src="images/instruments/maracas.svg" alt="Maracas pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="violin">
+                            <input id="violin" class="radio_instruments" type="radio" name="instruments" value="violin">
                             <div>
                                 <img src="images/instruments/violin.svg" alt="Violin pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="electric_guitar">
+                            <input id="electric_guitar" class="radio_instruments" type="radio" name="instruments" value="electric_guitar">
                             <div>
                                 <img src="images/instruments/electric_guitar.svg" alt="Electric guitar pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="saxophone">
+                            <input id="saxophone" class="radio_instruments" type="radio" name="instruments" value="saxophone">
                             <div>
                                 <img src="images/instruments/saxophone.svg" alt="Saxophone pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="guitar">
+                            <input id="guitar" class="radio_instruments" type="radio" name="instruments" value="guitar">
                             <div>
                                 <img src="images/instruments/guitar.svg" alt="Guitar pictogram">
                             </div>
                         </label>
                         <label>
-                            <input class="radio_instruments" type="radio" name="instruments" value="bongos">
+                            <input id="bongos" class="radio_instruments" type="radio" name="instruments" value="bongos">
                             <div>
                                 <img src="images/instruments/bongos.svg" alt="Bongos pictogram">
                             </div>
                         </label>
                     </div>
-                    <div>
+                    <div id="rythm">
                         <h1>Rythm</h1>
                         <select class="field_select">
-                            <option value="001" selected>001</option>
-                            <option value="002">002</option>
-                            <option value="003">003</option>
+                            <option id="001" value="001" selected>001</option>
+                            <option id="002" value="002">002</option>
+                            <option id="003" value="003">003</option>
                         </select>
                     </div>
+                    <!--
                     <div>
                         <button class="btn btn_submit" type="submit">Valider</button>
                     </div>
+                    -->
                 </form>
             </div>
         </main>

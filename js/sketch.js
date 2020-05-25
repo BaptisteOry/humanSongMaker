@@ -3,6 +3,9 @@ General
 ------------------------------*/
 "use strict"; //Force to declare any variable used
 
+const colors = ["#FF6300", "#95035D", "#C8062A", "#FFA500", "#027A98"]
+const instruments = ["bugle", "maracas", "violin", "electric_guitar", "saxophone", "guitar", "bongos"]
+const rythms = ["001", "002", "003"]
 let passersby = [{
   position: [100, 100],
   speed: [1, 1],
@@ -11,8 +14,9 @@ let passersby = [{
   osc: null,
   trigger: 0,
   index: 0,
-  instrument: null,
-  rhythm: null
+  instrument: instruments[0],
+  rhythm: rythms[0],
+  color: colors[0]
 }]
 const radius = 50
 const scale = [17, 19, 21, 22, 24, 26, 28]
@@ -23,17 +27,23 @@ const coloredSquares = [[{color: [149, 3, 93], displayed: false}, {color: [200, 
                       [{color: [202, 107, 174], displayed: false}, {color: [228, 102, 115], displayed: false}, {color: [255, 200, 48], displayed: false}, {color: [255, 153, 59], displayed: false}, {color: [93, 189, 204], displayed: false}, {color: [151, 248, 255], displayed: false}, {color: [241, 107, 77], displayed: false}],
                       [{color: [213, 127, 190], displayed: false}, {color: [233, 121, 128], displayed: false}, {color: [255, 206, 58], displayed: false}, {color: [255, 164, 70], displayed: false}, {color: [111, 202, 214], displayed: false}, {color: [154, 249, 255], displayed: false}, {color: [244, 124, 90], displayed: false}],
                       [{color: [223, 148, 206], displayed: false}, {color: [239, 140, 144], displayed: false}, {color: [255, 214, 67], displayed: false}, {color: [255, 174, 82], displayed: false}, {color: [129, 215, 224], displayed: false}, {color: [157, 251, 255], displayed: false}, {color: [247, 141, 104], displayed: false}]]
+let selection = -1
 
 
 /*------------------------------
 Initialisation
 ------------------------------*/
-document.addEventListener("DOMContentLoaded", initialiser);
+$(document).ready(initialiser);
 
 function initialiser(evt) {
 
-  /* Tempo buttons */
-  $(".btn_field_number").on("click", changeTempoNumber);
+  /* Change options */
+  $(".btn_field_number").click(changeTempoNumber);
+  $(".radio_instruments").change(changeInstrument);
+  $(".field_select").change(changeRythm);
+
+  $("#instrument").hide();
+  $("#rythm").hide();
 
 }
 
@@ -62,6 +72,20 @@ function changeTempoNumber(evt) {
   field_number.val(new_val);
 }
 
+function changeInstrument(evt) {
+  if (selection != -1) {
+    changeColors()
+    selection.instrument = $(this).val();
+  }
+}
+
+function changeRythm(evt) {
+  if (selection != -1) {
+    changeColors()
+    selection.rhythm = $(this).val();
+  }
+}
+
 /*------------------------------
 Canvas P5
 ------------------------------*/
@@ -74,8 +98,12 @@ function setup() {
     person.osc = new p5.TriOsc();
     // Start silent
     person.osc.start();
-    person.osc.amp(0)
+    person.osc.amp(0);
+    person.instrument = random(instruments);
+    person.rythm = random(rythms);
   });
+  canvas.mousePressed(selectPassersBy);
+
 }
 
 function draw() {
@@ -99,7 +127,7 @@ function movement() {
     passersby[i].position[1] += passersby[i].speed[1];
     if (passersby[i].selected) {
       strokeWeight(1)
-      fill(255, 99, 0)
+      fill(passersby[i].color)
     } else fill(0)
     ellipse(passersby[i].position[0], passersby[i].position[1], radius, radius)
     if (passersby[i].position[0] > 1 && passersby[i].position[0] < width-1 && passersby[i].position[1] > 1 && passersby[i].position[1] < height-1) {
@@ -157,9 +185,10 @@ function movement() {
       osc: null,
       trigger: 0,
       index: 0,
-      instrument: null,
-      rhythm: null
+      instrument: random(instruments),
+      rhythm: random(rythms)
     })
+    passersby[passersby.length - 1].color = random(colors)
     // A triangle oscillator
     passersby[passersby.length - 1].osc = new p5.TriOsc();
     // Start silent
@@ -231,26 +260,47 @@ function playNote(note, duration, osc) {
   }
 }
 
-function mousePressed() {
-  const selection = inCircle(mouseX, mouseY)
+function selectPassersBy() {
+  inCircle(mouseX, mouseY)
   if (selection !== -1) {
-    if (passersby[selection].selected) {
-      passersby[selection].selected = false;
+    if (selection.selected) {
+      selection.selected = false
+      $("#instrument").hide();
+      $("#rythm").hide();
     } else {
       passersby.forEach(person => person.selected = false);
-      passersby[selection].selected = true;
+      selection.selected = true;
+      $("#instrument").show();
+      $("#rythm").show();
+      const form = $("#actions_form");
+      form.find("#" + selection.instrument).prop("checked", true);
+      form.find("#" + selection.rhythm).prop("selected", true);
+      changeColors()
     }
   }
-  return false;
 }
 
 const inCircle = (x, y) => {
   for (let i = 0; i < passersby.length; i++) {
-    if (sqrt((x - passersby[i].position[0]) * (x - passersby[i].position[0]) + (y - passersby[i].position[1]) * (y - passersby[i].position[1]) < radius * radius)) {
-      return i;
+    if (sqrt((x - passersby[i].position[0]) * (x - passersby[i].position[0]) + (y - passersby[i].position[1]) * (y - passersby[i].position[1]) < 100 * 100)) {
+      selection = passersby[i];
     }
   }
-  return -1;
+}
+
+function changeColors() {
+  $(".btn, .radio_instruments:not(:checked)+div").hover(function (evt) {
+    if ($(this).prev().is(":checked") == false) {
+      $(this).css({
+        "background-color": evt.type === "mouseenter" ? selection.color : "",
+        "border-color": evt.type === "mouseenter" ? selection.color : ""
+      });
+    }
+  });
+  $(".radio_instruments+div, .field_select>option").css("background-color", "");
+  $(".radio_instruments+div").css("border-color", "");
+  $("#board_canvas>#infos, .radio_instruments:checked+div, .field_select>option:checked").css("background-color", selection.color);
+  $(".radio_instruments:checked+div").css("border-color", selection.color);
 }
 
 const displaySquares = (note) => {
