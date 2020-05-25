@@ -3,6 +3,9 @@ General
 ------------------------------*/
 "use strict"; //Force to declare any variable used
 
+const colors = ["#FF6300", "#95035D", "#C8062A", "#FFA500", "#027A98"]
+const instruments = ["bugle", "maracas", "violin", "electric_guitar", "saxophone", "guitar", "bongos"]
+const rythms = ["001", "002", "003"]
 let passersby = [{
   position: [100, 100],
   speed: [2, 2],
@@ -11,21 +14,29 @@ let passersby = [{
   osc: null,
   trigger: 0,
   index: 0,
-  instrument: null,
-  rhythm: null
+  instrument: instruments[0],
+  rhythm: rythms[0],
+  color: colors[0]
 }]
+let selection = -1
 let osc
 let scale = [17, 19, 21, 22, 24, 26, 28]
+
 
 /*------------------------------
 Initialisation
 ------------------------------*/
-document.addEventListener("DOMContentLoaded", initialiser);
+$(document).ready(initialiser);
 
 function initialiser(evt) {
 
-  /* Tempo buttons */
-  $(".btn_field_number").on("click", changeTempoNumber);
+  /* Change options */
+  $(".btn_field_number").click(changeTempoNumber);
+  $(".radio_instruments").change(changeInstrument);
+  $(".field_select").change(changeRythm);
+
+  $("#instrument").hide();
+  $("#rythm").hide();
 
 }
 
@@ -54,6 +65,20 @@ function changeTempoNumber(evt) {
   field_number.val(new_val);
 }
 
+function changeInstrument(evt) {
+  if (selection != -1) {
+    changeColors()
+    selection.instrument = $(this).val();
+  }
+}
+
+function changeRythm(evt) {
+  if (selection != -1) {
+    changeColors()
+    selection.rhythm = $(this).val();
+  }
+}
+
 /*------------------------------
 Canvas P5
 ------------------------------*/
@@ -66,8 +91,12 @@ function setup() {
     person.osc = new p5.TriOsc();
     // Start silent
     person.osc.start();
-    person.osc.amp(0)
+    person.osc.amp(0);
+    person.instrument = random(instruments);
+    person.rythm = random(rythms);
   });
+  canvas.mousePressed(selectPassersBy);
+
 }
 
 function draw() {
@@ -83,7 +112,7 @@ function movement() {
     passersby[i].position[0] += passersby[i].speed[0];
     passersby[i].position[1] += passersby[i].speed[1];
     if (passersby[i].selected) {
-      fill(255, 99, 0)
+      fill(passersby[i].color)
     } else fill(0)
     ellipse(passersby[i].position[0], passersby[i].position[1], 100, 100)
     if (passersby[i].position[0] > 0 && passersby[i].position[0] < width && passersby[i].position[1] > 0 && passersby[i].position[1] < height) {
@@ -93,7 +122,6 @@ function movement() {
       passersby[i].playing = false;
       passersby[i].osc.fade(0, 0.5);
       passersby[i] = passersby.pop()
-
     }
   }
   if (passersby.length < 5 && random(0, 100) > 98) {
@@ -140,9 +168,10 @@ function movement() {
       osc: null,
       trigger: 0,
       index: 0,
-      instrument: null,
-      rhythm: null
+      instrument: random(instruments),
+      rhythm: random(rythms)
     })
+    passersby[passersby.length - 1].color = colors[passersby.length - 1]
     // A triangle oscillator
     passersby[passersby.length - 1].osc = new p5.TriOsc();
     // Start silent
@@ -150,6 +179,8 @@ function movement() {
     passersby[passersby.length - 1].osc.amp(0)
   }
 }
+
+//let colors = ["#FF6300", "#95035D", "#C8062A", "#FFA500", "#027A98"]
 
 const getNote = (x, y) => {
   let note = scale[floor((x / width) * 7)];
@@ -185,24 +216,45 @@ function playNote(note, duration, osc) {
   }
 }
 
-function mousePressed() {
-  const selection = inCircle(mouseX, mouseY)
+function selectPassersBy() {
+  inCircle(mouseX, mouseY)
   if (selection !== -1) {
-    if (passersby[selection].selected) {
-      passersby[selection].selected = false
+    if (selection.selected) {
+      selection.selected = false
+      $("#instrument").hide();
+      $("#rythm").hide();
     } else {
       passersby.forEach(person => person.selected = false);
-      passersby[selection].selected = true;
+      selection.selected = true;
+      $("#instrument").show();
+      $("#rythm").show();
+      const form = $("#actions_form");
+      form.find("#" + selection.instrument).prop("checked", true);
+      form.find("#" + selection.rhythm).prop("selected", true);
+      changeColors()
     }
   }
-  return false;
 }
 
 let inCircle = (x, y) => {
   for (let i = 0; i < passersby.length; i++) {
     if (sqrt((x - passersby[i].position[0]) * (x - passersby[i].position[0]) + (y - passersby[i].position[1]) * (y - passersby[i].position[1]) < 100 * 100)) {
-      return i;
+      selection = passersby[i];
     }
   }
-  return -1;
+}
+
+function changeColors() {
+  $(".btn, .radio_instruments:not(:checked)+div").hover(function (evt) {
+    if ($(this).prev().is(":checked") == false) {
+      $(this).css({
+        "background-color": evt.type === "mouseenter" ? selection.color : "",
+        "border-color": evt.type === "mouseenter" ? selection.color : ""
+      });
+    }
+  });
+  $(".radio_instruments+div, .field_select>option").css("background-color", "");
+  $(".radio_instruments+div").css("border-color", "");
+  $("#board_canvas>#infos, .radio_instruments:checked+div, .field_select>option:checked").css("background-color", selection.color);
+  $(".radio_instruments:checked+div").css("border-color", selection.color);
 }
