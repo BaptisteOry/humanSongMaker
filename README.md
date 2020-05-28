@@ -2,7 +2,7 @@
 
 Maquette intéractive de "Human Song Maker", dans le cadre de la formation ingénieur IMAC.
 
-*https://github.com/BaptisteOry/humanSongMaker*
+*https://github.com/BaptisteOry/humanSongMaker*<br/>
 *https://baptisteory.github.io/humanSongMaker/*
 
 ## Version
