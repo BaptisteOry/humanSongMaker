@@ -91,12 +91,6 @@ function draw() {
 
 }
 
-function touchStarted() {
-  if (getAudioContext().state !== 'running') {
-    getAudioContext().resume();
-  }
-}
-
 function playRythm() {
   passersby.forEach(person => {
     const note = getNote(person.position[0], person.position[1]);
@@ -251,6 +245,10 @@ function getSquareWithNote(note) {
 }
 
 function selectPasserBy() {
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }
+  
   isPasserBySelect(mouseX, mouseY)
   if (selection !== -1) {
     if (selection.selected) {
