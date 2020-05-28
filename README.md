@@ -1,4 +1,4 @@
-# Human Song Maker (Solène et Baptiste)
+# Human Song Maker
 
 Maquette intéractive de "Human Song Maker", dans le cadre de la formation ingénieur IMAC.
 
