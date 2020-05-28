@@ -248,6 +248,9 @@ function selectPasserBy() {
   if (Tone.context.state !== 'running') {
     Tone.context.resume();
   }
+  if (getAudioContext().state !== 'running') {
+    getAudioContext().resume();
+  }
   
   isPasserBySelect(mouseX, mouseY)
   if (selection !== -1) {
