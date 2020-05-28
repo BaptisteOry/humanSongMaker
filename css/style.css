@@ -485,6 +485,10 @@ h1>span {
 
 /* --> Tempo */
 
+.field_number {
+    width: 50px;
+}
+
 .field_number::-webkit-inner-spin-button,
 .field_number::-webkit-outer-spin-button {
     -webkit-appearance: none;
