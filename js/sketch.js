@@ -91,6 +91,10 @@ function draw() {
 
 }
 
+function touchStarted() {
+  getAudioContext().resume()
+}
+
 function playRythm() {
   passersby.forEach(person => {
     const note = getNote(person.position[0], person.position[1]);
