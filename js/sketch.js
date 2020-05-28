@@ -92,7 +92,9 @@ function draw() {
 }
 
 function touchStarted() {
-  getAudioContext().resume()
+  if (getAudioContext().state !== 'running') {
+    getAudioContext().resume();
+  }
 }
 
 function playRythm() {
